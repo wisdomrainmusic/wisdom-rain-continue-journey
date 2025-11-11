@@ -1,1 +1,49 @@
-/* placeholder files for future style and js tracker */
+.wr-continue-section {
+  background: #0a0a0a;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.12);
+}
+.wr-continue-section h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  color: #ffd700;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+.wr-continue-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.wr-continue-card {
+  background: #141414;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.wr-continue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 12px rgba(255,215,0,0.25);
+}
+.wr-continue-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.wr-info {
+  padding: 1rem;
+  text-align: center;
+}
+.wr-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+.wr-info p {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-top: 4px;
+}

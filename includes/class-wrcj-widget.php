@@ -12,10 +12,6 @@ class WRCJ_Widget {
         $user_id = get_current_user_id();
         $meta    = get_user_meta( $user_id );
 
-        if ( empty( $meta ) ) {
-            return '';
-        }
-
         $items = array();
 
         foreach ( $meta as $key => $values ) {
@@ -43,10 +39,6 @@ class WRCJ_Widget {
             );
         }
 
-        if ( empty( $items ) ) {
-            return '';
-        }
-
         usort(
             $items,
             function ( $a, $b ) {
@@ -60,38 +52,44 @@ class WRCJ_Widget {
         ?>
         <section class="wr-continue-section">
             <h2><?php echo esc_html__( 'Continue Your Journey', 'wrcj' ); ?></h2>
-            <div class="wr-continue-grid">
-                <?php
-                foreach ( $items as $item ) {
-                    $post = get_post( $item['post_id'] );
-
-                    if ( ! $post instanceof WP_Post || 'trash' === $post->post_status ) {
-                        continue;
-                    }
-
-                    $permalink = get_permalink( $post );
-
-                    if ( ! $permalink ) {
-                        continue;
-                    }
-
-                    $thumbnail = get_the_post_thumbnail( $post, 'medium' );
-                    ?>
-                    <a class="wr-continue-card" href="<?php echo esc_url( $permalink ); ?>">
-                        <?php if ( $thumbnail ) : ?>
-                            <?php echo wp_kses_post( $thumbnail ); ?>
-                        <?php endif; ?>
-                        <div class="wr-info">
-                            <h3><?php echo esc_html( get_the_title( $post ) ); ?></h3>
-                            <?php if ( $item['type'] || $item['position'] ) : ?>
-                                <p><?php echo esc_html( self::format_progress_summary( $item['type'], $item['position'] ) ); ?></p>
-                            <?php endif; ?>
-                        </div>
-                    </a>
+            <?php if ( empty( $items ) ) : ?>
+                <p style="text-align:center;color:#aaa;">
+                    <?php echo esc_html__( 'No recent activity yet — start exploring your premium library ✨', 'wrcj' ); ?>
+                </p>
+            <?php else : ?>
+                <div class="wr-continue-grid">
                     <?php
-                }
-                ?>
-            </div>
+                    foreach ( $items as $item ) {
+                        $post = get_post( $item['post_id'] );
+
+                        if ( ! $post instanceof WP_Post || 'trash' === $post->post_status ) {
+                            continue;
+                        }
+
+                        $permalink = get_permalink( $post );
+
+                        if ( ! $permalink ) {
+                            continue;
+                        }
+
+                        $thumbnail = get_the_post_thumbnail( $post, 'medium' );
+                        ?>
+                        <a class="wr-continue-card" href="<?php echo esc_url( $permalink ); ?>">
+                            <?php if ( $thumbnail ) : ?>
+                                <?php echo wp_kses_post( $thumbnail ); ?>
+                            <?php endif; ?>
+                            <div class="wr-info">
+                                <h3><?php echo esc_html( get_the_title( $post ) ); ?></h3>
+                                <?php if ( $item['type'] || $item['position'] ) : ?>
+                                    <p><?php echo esc_html( self::format_progress_summary( $item['type'], $item['position'] ) ); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </a>
+                        <?php
+                    }
+                    ?>
+                </div>
+            <?php endif; ?>
         </section>
         <?php
         return trim( ob_get_clean() );
