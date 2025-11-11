@@ -52,6 +52,14 @@ class WRCJ_Widget {
         ?>
         <section class="wr-continue-section">
             <h2><?php echo esc_html__( 'Continue Your Journey', 'wrcj' ); ?></h2>
+            <?php
+            $plan   = (string) get_user_meta( get_current_user_id(), 'wrpa_active_plan', true );
+            $expiry = (int) get_user_meta( get_current_user_id(), 'wrpa_access_expiry', true );
+            if ( ! in_array( strtolower( $plan ), array( 'trial', 'monthly', 'annual' ), true ) || ! $expiry || current_time( 'timestamp' ) > $expiry ) {
+                echo '<p style="text-align:center;color:#999;">Premium Access required to view your reading and listening history 🔒</p>';
+                return trim( ob_get_clean() );
+            }
+            ?>
             <?php if ( empty( $items ) ) : ?>
                 <p style="text-align:center;color:#aaa;">
                     <?php echo esc_html__( 'No recent activity yet — start exploring your premium library ✨', 'wrcj' ); ?>

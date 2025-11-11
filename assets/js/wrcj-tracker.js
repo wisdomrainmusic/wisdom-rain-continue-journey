@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    console.log('🎧 WRCJ Tracker fired for', data.post_id, data.position, data.type);
     fetch(ajaxUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
